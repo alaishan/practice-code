@@ -69,21 +69,146 @@ def AnaCheck(string1, string2):
 #Question 5
 #Determine if a Binary tree is a binary search tree or not 
 class Node(object):
-    def _init_(self, value):
+    def __init__(self, value):
+        self.value = value
+        self.left = None #initial left child is none
+        self.right = None #initial right child is none
+
+class BinaryTree(object):
+    def __init__(self, root):
+        self.root = Node(root)
+        
+    def print_tree(self, traversal_type): #prints nodes according to how tree is traversed
+        if traversal_type == "inorder":
+            return self.inorder_print(tree.root, " ") #pass tree root and empty string
+        else:
+            print("traversal type" + str(traversal_type) + "is not supported")
+            return False
+   
+ #IN-ORDER (starting from left most node to root to right most node)
+    #4,2,5,1,6,3,7,
+    def inorder_print(self, start, traversal):
+        if start: 
+            traversal = self.inorder_print(start.left, traversal)
+            traversal += (str(start.value) + " ")
+            traversal = self.inorder_print(start.right, traversal)
+        return traversal
+                    
+            
+tree = BinaryTree(6)                #         6
+tree.root.left = Node(4)            #       /   \
+tree.root.right = Node(8)           #     4       8
+tree.root.left.left = Node(3)       #    / \     / \
+tree.root.left.right = Node(5)      #   3   5   7   9  an in-order traversal will return an ordered list from smallest to largest value
+tree.root.right.left = Node(7) 
+tree.root.right.right = Node(9) 
+
+print("In-order " + tree.print_tree("inorder"))
+
+def Convert(string): 
+    a_list = string.split()
+    map_object = map(int, a_list)
+    
+    list_of_integers = list(map_object)
+    return list_of_integers
+
+def Check(list):
+    x = 0
+    y = len(list)-1
+    while x < y:
+        if list[x] < list[x+1]:
+            print("true") 
+            x += 1
+            if x == y:
+                print('This is a Binary Search Tree')
+        else:
+            print("Not a Binary Search Tree")
+            return False
+        
+print(Convert(tree.print_tree("inorder")))
+print(Check(Convert(tree.print_tree("inorder"))))
+
+#Question 6
+#Mirror of a binary tree
+#Define a node class for the nodes in the tree
+class Node(object): 
+    def __init__(self, value):
         self.value = value
         self.left = None #initial left child is none
         self.right = None #initial right child is none
         
-class BinaryTree(object):
-    def _init_(self, root):
-        self.root = Node(root)
+    
+def inorder_print(node): 
+    if node == None:  
+        return
+          
+    inorder_print(node.left)  
+    print(node.value, end = ",")  
+    inorder_print(node.right)  
         
-tree = BinaryTree(1)                #         1
-tree.root.left = Node(2)            #       /   \
-tree.root.right = Node(3)           #     2       3
-tree.root.left.left = Node(4)       #    / \     / \
-tree.root.left.right = Node(5)      #   4   5   6   7
-tree.root.right.left = Node(6) 
-tree.root.right.right = Node(7) 
+def binary_tree_mirror(node):
+    if node == None:
+        return 
+    else:
+        temp = node 
+        binary_tree_mirror(node.left)
+        binary_tree_mirror(node.right)
+        
+        temp = node.left  # place holder for left node
+        node.left = node.right  # new value for left node is previous value of right node
+        node.right = temp # new value of right node is previous value of the left node
+
+
+
+tree = Node(1)                 #         1
+tree.left = Node(2)            #       /   \
+tree.right = Node(3)           #     2       3
+tree.left.left = Node(4)       #    / \     / \
+tree.left.right = Node(5)      #   4   5   6   7
+tree.right.left = Node(6) 
+tree.right.right = Node(7) 
+
+print("\nInorder traversal of the existing tree is ")  
+
+inorder_print(tree) 
+
+binary_tree_mirror(tree)
+
+print("\nInorder traversal of the mirror tree is ")  
+               
+inorder_print(tree) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
